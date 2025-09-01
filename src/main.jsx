@@ -8,6 +8,7 @@ import RegisterPage from "./pages/Register.jsx";
 import ProductPage from "./pages/Product.jsx";
 import UserPage from "./pages/User.jsx";
 import "./styles/global.css";
+import TodoApp from "./components/todo/TodoApp.jsx";
 
 let router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ let router = createBrowserRouter([
         path: "/products",
         Component: ProductPage,
       },
+      {
+        index: true,
+        Component: TodoApp
+      }
     ],
     // loader: loadRootData,
   },
