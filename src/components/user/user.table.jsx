@@ -1,17 +1,17 @@
 import { Space, Table, Tag } from "antd";
-import { fetchAllUserAPI } from "../../services/api.service";
-import { useState, useEffect } from "react";
 
-const UserTable = () => {
-  const [dataUsers, setDataUsers] = useState([]);
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import UpdateUserModal from "./update.user.modal";
 
-  useEffect(() => {
-    loadData(); 
-  }, []);
+const UserTable = (props) => {
+  const { dataUsers } = props;
   const columns = [
     {
       title: "Id",
       dataIndex: "id",
+      render: (_, record) => {
+        return <a href="#">{record.id}</a>;
+      },
     },
     {
       title: "Full Name",
@@ -21,17 +21,27 @@ const UserTable = () => {
       title: "Email",
       dataIndex: "email",
     },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (_, record) => (
+        <>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <EditOutlined style={{ cursor: "pointer", color: "orange" }} />
+
+            <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
+          </div>
+        </>
+      ),
+    },
   ];
-  
 
-  const loadData = async () => {
-    const res = await fetchAllUserAPI();
-    setDataUsers(res.data);
-  };
-
-  
-
-  return <Table columns={columns} dataSource={dataUsers} rowKey="id" />;
+  return (
+    <>
+      <Table columns={columns} dataSource={dataUsers} rowKey="id" />
+      <UpdateUserModal />
+    </>
+  );
 };
 
 export default UserTable;

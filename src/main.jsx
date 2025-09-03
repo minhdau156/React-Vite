@@ -9,6 +9,7 @@ import ProductPage from "./pages/Product.jsx";
 import UserPage from "./pages/User.jsx";
 import "./styles/global.css";
 import TodoApp from "./components/todo/TodoApp.jsx";
+import BookPage from "./pages/Product.jsx";
 
 let router = createBrowserRouter([
   {
@@ -20,8 +21,8 @@ let router = createBrowserRouter([
         Component: UserPage,
       },
       {
-        path: "/products",
-        Component: ProductPage,
+        path: "/books",
+        Component: BookPage,
       },
       {
         index: true,
