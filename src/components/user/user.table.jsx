@@ -1,10 +1,10 @@
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, Popconfirm } from "antd";
 
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import UpdateUserModal from "./update.user.modal";
 import { useState } from "react";
 import ViewDetailUser from "./detail.user";
-import { fetchUserAPI } from "../../services/api.service";
+import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
   const { dataUsers, loadData } = props;
@@ -16,15 +16,6 @@ const UserTable = (props) => {
 
   const [dataView, setDataView] = useState(null);
 
-  const loadUser = async (id) => {
-    const res = await fetchUserAPI(id);
-    setDataView(res.data);
-  };
-  const handleClick = (id) => {
-    loadUser(id);
-    setIsViewOpen(true);
-  };
-
   const columns = [
     {
       title: "Id",
@@ -33,7 +24,8 @@ const UserTable = (props) => {
         return (
           <a
             onClick={() => {
-              handleClick(record.id);
+              setDataView(record);
+              setIsViewOpen(true);
             }}
             style={{ cursor: "pointer", color: "blue" }}
           >
@@ -67,7 +59,7 @@ const UserTable = (props) => {
             <Popconfirm
               title="Xóa người dùng"
               description="Bạn chắc chắn xóa user này"
-              onConfirm={() => handleDeleteUser(record.id)}              
+              onConfirm={() => handleDeleteUser(record.id)}
               okText="Yes"
               cancelText="No"
               placement="left"
@@ -81,19 +73,9 @@ const UserTable = (props) => {
   ];
 
   const handleDeleteUser = async (id) => {
-    const res = await deleteUserAPI(id);
-    if (res.data) {
-      notification.success({
-        message: "Delete User",
-        description: "Xóa User Thành Công",
-      });
-      await loadData();
-    } else {
-      notification.error({
-        message: "Error Delete User",
-        description: JSON.stringify(res.message),
-      });
-    }
+    await deleteUserAPI(id);
+
+    await loadData();
   };
 
   return (
@@ -111,6 +93,7 @@ const UserTable = (props) => {
         setIsViewOpen={setIsViewOpen}
         dataView={dataView}
         setDataView={setDataView}
+        loadData={loadData}
       />
     </>
   );
