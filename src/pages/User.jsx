@@ -9,7 +9,6 @@ const UserPage = () => {
   useEffect(() => {
     loadData();
   }, []);
-  
 
   const loadData = async () => {
     const res = await fetchAllUserAPI();
@@ -18,8 +17,8 @@ const UserPage = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <UserForm loadData={loadData}/>
-      <UserTable dataUsers={dataUsers}/>
+      <UserForm loadData={loadData} />
+      <UserTable dataUsers={dataUsers} loadData={loadData} />
     </div>
   );
 };
