@@ -5,16 +5,19 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import LoginPage from "./pages/Login.jsx";
 import RegisterPage from "./pages/Register.jsx";
-import ProductPage from "./pages/Product.jsx";
+import ProductPage from "./pages/Book.jsx";
 import UserPage from "./pages/User.jsx";
 import "./styles/global.css";
 import TodoApp from "./components/todo/TodoApp.jsx";
-import BookPage from "./pages/Product.jsx";
+import BookPage from "./pages/Book.jsx";
+import ErrorPage from "./pages/Error.jsx";
 
 let router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    ErrorBoundary: ErrorPage,
+
     children: [
       {
         path: "/users",
@@ -26,8 +29,8 @@ let router = createBrowserRouter([
       },
       {
         index: true,
-        Component: TodoApp
-      }
+        Component: TodoApp,
+      },
     ],
     // loader: loadRootData,
   },
@@ -38,7 +41,7 @@ let router = createBrowserRouter([
   {
     path: "/register",
     Component: RegisterPage,
-  }
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

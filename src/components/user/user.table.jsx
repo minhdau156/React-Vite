@@ -7,7 +7,15 @@ import ViewDetailUser from "./detail.user";
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-  const { dataUsers, loadData } = props;
+  const {
+    dataUsers,
+    loadData,
+    currentPage,
+    pageSize,
+    total,
+    setCurrentPage,
+    setPageSize,
+  } = props;
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
   const [dataUpdate, setDataUpdate] = useState(null);
@@ -20,7 +28,7 @@ const UserTable = (props) => {
     {
       title: "STT",
       render: (_, record, index) => {
-        return <>{index + 1}</>;
+        return <>{index + 1 + (currentPage - 1) * pageSize}</>;
       },
     },
     {
@@ -84,9 +92,43 @@ const UserTable = (props) => {
     await loadData();
   };
 
+  const onChange = (pagination, filters, sorter, extra) => {
+    //neu thay doi trang: current
+    if (pagination && pagination.current) {
+      if (+pagination.current != +currentPage) {
+        setCurrentPage(+pagination.current);
+      }
+    }
+    //neu thay doi tong so phan tu : pageSize
+    if (pagination && pagination.pageSize) {
+      if (+pagination.pageSize != +pageSize) {
+        setPageSize(+pagination.pageSize);
+      }
+    }
+    console.log(">>> check", { pagination, filters, sorter, extra });
+  };
+
   return (
     <>
-      <Table columns={columns} dataSource={dataUsers} rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={dataUsers}
+        rowKey="id"
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          total: total,
+          showTotal: (total, range) => {
+            return (
+              <div>
+                {range[0]}-{range[1]} tren {total} rows
+              </div>
+            );
+          },
+        }}
+        onChange={onChange}
+      />
       <UpdateUserModal
         isModalUpdateOpen={isModalUpdateOpen}
         setIsModalUpdateOpen={setIsModalUpdateOpen}
