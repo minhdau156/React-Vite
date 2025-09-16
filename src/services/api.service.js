@@ -57,6 +57,26 @@ const updateUserAvatarAPI = (id, avatar) => {
   return axios.put(URL_BACKEND, data);
 };
 
+const registerUserAPI = (fullName, password, email, phone) => {
+  const URL_BACKEND = "/users/register";
+  const data = {
+    fullName: fullName,
+    password: password,
+    email: email,
+    phone: phone,
+  };
+  return axios.post(URL_BACKEND, data);
+};
+
+const loginUserAPI = (email, password) => {
+  const URL_BACKEND = "/auth/login";
+  const data = {
+    email: email,
+    password: password,
+  };
+  return axios.post(URL_BACKEND, data);
+};
+
 export {
   createUserAPI,
   updateUserAPI,
@@ -65,4 +85,6 @@ export {
   deleteUserAPI,
   handleUploadFile,
   updateUserAvatarAPI,
+  registerUserAPI,
+  loginUserAPI,
 };
