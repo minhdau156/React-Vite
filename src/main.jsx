@@ -16,6 +16,8 @@ import {
   AuthWrapper,
 } from "./components/context/auth.context.jsx";
 
+import  PrivateRoute  from "./pages/private.route.jsx";
+
 let router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +31,11 @@ let router = createBrowserRouter([
       },
       {
         path: "/books",
-        Component: BookPage,
+        element: (
+          <PrivateRoute>
+            <BookPage />
+          </PrivateRoute>
+        ),
       },
       {
         index: true,

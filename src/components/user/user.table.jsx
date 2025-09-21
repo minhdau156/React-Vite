@@ -92,7 +92,7 @@ const UserTable = (props) => {
     await loadData();
   };
 
-  const onChange = (pagination, filters, sorter, extra) => {
+  const onChange = (pagination) => {
     //neu thay doi trang: current
     if (pagination && pagination.current) {
       if (+pagination.current != +currentPage) {
@@ -105,7 +105,7 @@ const UserTable = (props) => {
         setPageSize(+pagination.pageSize);
       }
     }
-    console.log(">>> check", { pagination, filters, sorter, extra });
+    
   };
 
   return (

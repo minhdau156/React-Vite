@@ -22,7 +22,7 @@ const UserPage = () => {
       setTotal(res.data.metaPagination.totalItems);
     }
   };
-  console.log(">>> check current page: ", currentPage, pageSize);
+  
   return (
     <div style={{ padding: "20px" }}>
       <UserForm loadData={loadData} />

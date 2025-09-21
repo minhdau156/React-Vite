@@ -15,11 +15,11 @@ const LoginPage = () => {
   const { setUser } = useContext(AuthContext);
 
   const onFinish = async (values) => {
+    localStorage.clear();
     setLoading(true);
     const res = await loginUserAPI(values.email, values.password);
 
     if (res.data) {
-      console.log(res);
       messageApi.open({
         type: "success",
         content: "Login Thanh Cong",
@@ -93,7 +93,13 @@ const LoginPage = () => {
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password />
+            <Input.Password
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  form.submit();
+                }
+              }}
+            />
           </Form.Item>
 
           <Form.Item>

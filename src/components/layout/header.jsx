@@ -13,11 +13,9 @@ import { AuthContext } from "../context/auth.context";
 const Header = () => {
   const [current, setCurrent] = useState("mail");
 
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
-  console.log(">>> check data", user);
   const onClick = (e) => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
 
@@ -58,6 +56,13 @@ const Header = () => {
               {
                 key: "logout",
                 label: "Logout",
+                onClick: () => {
+                  if (user && user.id) {
+                    localStorage.removeItem("access_token");
+                    setUser(null);
+                    window.location.reload();
+                  }
+                },
               },
             ],
           },

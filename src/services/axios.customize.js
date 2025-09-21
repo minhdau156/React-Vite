@@ -1,3 +1,4 @@
+import { SortAscendingOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const instance = axios.create({
@@ -8,6 +9,18 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+
+    if (
+      (config.url.startsWith("/books") || config.url === "/auth/getAccount") &&
+      typeof window !== "undefined" &&
+      window &&
+      window.localStorage &&
+      window.localStorage.getItem("access_token")
+    ) {
+      config.headers.Authorization =
+        "Bearer " + window.localStorage.getItem("access_token");
+      
+    }
     return config;
   },
   function (error) {
@@ -30,7 +43,7 @@ instance.interceptors.response.use(
   function onRejected(error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    
+
     if (error.response && error.response.data) return error.response.data;
     return Promise.reject(error);
   }
